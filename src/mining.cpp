@@ -226,6 +226,13 @@ void runStratumWorker(void *name) {
   
 }
 
+char getHeader(unsigned int miner_id){
+    if (miner_id == 0){
+      return mMiner.bytearray_blockheader + 64;
+     }
+    
+    return mMiner.bytearray_blockheader2 + 64;
+}
 
 //////////////////THREAD CALLS///////////////////
 
@@ -277,7 +284,8 @@ void runMiner(void * task_id) {
 
     memcpy(mMiner.bytearray_blockheader2, &mMiner.bytearray_blockheader, 80);
 
-     header64 = getHeader(miner_id);
+    header64 = getHeader(miner_id);
+
     bool is16BitShare=true;  
     Serial.println(">>> STARTING TO HASH NONCES");
     while(true) {
@@ -468,13 +476,4 @@ void runMonitor(void *name)
     vTaskDelay(DELAY / portTICK_PERIOD_MS);
     frame++;
   }
-
-  int getHeader(miner_id){
-    if (miner_id == 0){
-      return mMiner.bytearray_blockheader + 64;
-     }
-    
-    return mMiner.bytearray_blockheader2 + 64;
-  }
-
 }
